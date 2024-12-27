@@ -46,11 +46,7 @@ jobs:
           
       - name: Update README files
         run: |
-          NOTICE="
-          
-          ---
-          
-          # 重要通知
+          NOTICE="# 重要通知
           
           开源强化版bolt.new 支持第三方线上及本地几乎所有的API【bolt.diy】
           
@@ -61,11 +57,18 @@ jobs:
           
           ## 更多资源
           更多视频教程请访问：https://github.com/aigem/videos
+          
+          ---
+          
           "
           
           # 只检查 README.md 文件
           if [ -f "README.md" ] && ! grep -q "开源强化版bolt.new" "README.md"; then
-            echo "$NOTICE" >> "README.md"
+            # 创建临时文件
+            echo "$NOTICE" > temp_readme
+            cat README.md >> temp_readme
+            mv temp_readme README.md
+            
             echo "Updated README.md"
             git add README.md
             git commit -m "docs: add notification to README.md"
