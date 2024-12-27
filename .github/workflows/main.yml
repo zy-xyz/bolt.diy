@@ -64,10 +64,12 @@ jobs:
           
           # 只检查 README.md 文件
           if [ -f "README.md" ] && ! grep -q "开源强化版bolt.new" "README.md"; then
-            # 创建临时文件
+            # 创建临时文件并确保正确的顺序
             echo "$NOTICE" > temp_readme
             cat README.md >> temp_readme
-            mv temp_readme README.md
+            # 使用 cat 直接覆盖原文件
+            cat temp_readme > README.md
+            rm temp_readme
             
             echo "Updated README.md"
             git add README.md
