@@ -32,18 +32,6 @@ jobs:
         run: |
           git fetch upstream
           
-      - name: Merge upstream
-        run: |
-          git merge upstream/$(git branch --show-current) --no-edit
-          
-      - name: Remove .tool-versions file
-        run: |
-          if [ -f ".tool-versions" ]; then
-            rm .tool-versions
-            git add .tool-versions
-            git commit -m "chore: remove .tool-versions file"
-          fi
-          
       - name: Update README files
         run: |
           NOTICE="# 重要通知
@@ -76,6 +64,18 @@ jobs:
             git commit -m "docs: add notification to README.md"
           else
             echo "README.md already contains notification or does not exist"
+          fi
+
+      - name: Merge upstream
+        run: |
+          git merge upstream/$(git branch --show-current) --no-edit
+          
+      - name: Remove .tool-versions file
+        run: |
+          if [ -f ".tool-versions" ]; then
+            rm .tool-versions
+            git add .tool-versions
+            git commit -m "chore: remove .tool-versions file"
           fi
           
       - name: Push changes
